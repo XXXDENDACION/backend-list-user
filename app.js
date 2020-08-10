@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const querystring = require('querystring');
+const morgan = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
@@ -12,14 +13,11 @@ app.use(bodyParser.json());
 
 const usersRoute = require('./routes/users');
 
-app.use('/user', usersRoute);
+app.use('/users', usersRoute);
+app.use(morgan('dev'));
 
 app.get('/', async (req,res) => {
-    const page = req.query.page;
-    const limit = req.query.limit;
-    
-    console.log(page,limit);
-    res.send(`We are on home page=${page},limit=${limit}`);
+    res.send(`We are on home page`);
 });
 
 mongoose.connect(

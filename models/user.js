@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-
-const PostSchema = mongoose.Schema({
+const Schema = mongoose.Schema;
+const PostSchema = new Schema({
     firstName: {
         type: String,
         required: true,
@@ -18,5 +18,10 @@ const PostSchema = mongoose.Schema({
         required: true,
     }
 });
+PostSchema.statics = {
+    valueExists(query) {
+        return this.findOne(query).then(result => result);
+    }
+};
 
 module.exports = mongoose.model('User', PostSchema);
