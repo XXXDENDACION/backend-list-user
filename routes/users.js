@@ -24,7 +24,7 @@ router.get('/', async(req,res) => {
     }
 });
 
-router.post('/',validationMiddleware.signup, baseController.signup ,async(req,res)=>{
+router.post('/',validationMiddleware.signup,async(req,res)=>{
     const user = new User({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -49,7 +49,7 @@ router.delete('/', async(req,res) => {
     }
 });
 
-router.patch('/', async(req,res) => {
+router.patch('/',validationMiddleware.signup, async(req,res) => {
     try {
         const paramId = req.query.id;
         const updateUser = await User.updateOne(
