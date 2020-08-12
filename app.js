@@ -12,8 +12,12 @@ app.use(cors());
 app.use(bodyParser.json());
 
 const usersRoute = require('./routes/users');
+const rolesRoute = require('./routes/roles');
 
 app.use('/users', usersRoute);
+app.use('/roles', rolesRoute);
+
+
 app.use(morgan('dev'));
 
 app.get('/', async (req,res) => {

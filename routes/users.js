@@ -9,61 +9,17 @@ const validationMiddleware = require('../middleware/middlewar-validate');
 
 
 
-router.get('/', async(req,res) => {
-    try{
-        let user;
-        const paramId = req.query.id;
-        console.log(paramId);
-        if(paramId) {
-            user = await User.findById(paramId);
-        }
-        else user = await User.find();
-        res.json(user);
-    }catch(err) {
-        res.json({message:err})
-    }
-});
+router.get('/', baseController.getup);
 
-router.post('/',validationMiddleware.signup,async(req,res)=>{
-    const user = new User({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        role: req.body.role
-    });
-    try{
-    const savedUser = await user.save();
-    res.json(savedUser);
-    }catch(err) {
-        res.json({message:err});
-    }
-});
+router.post('/',
+    validationMiddleware.signup,
+    baseController.addup);
 
-router.delete('/', async(req,res) => {
-    try {
-        const paramId = req.query.id;
-        const removedUser = await User.deleteOne({_id: paramId});
-        res.json(removedUser);
-    }catch(err) {
-        res.json({message: err});
-    }
-});
+router.delete('/', baseController.deleteup);
 
-router.patch('/',validationMiddleware.signup, async(req,res) => {
-    try {
-        const paramId = req.query.id;
-        const updateUser = await User.updateOne(
-            {_id: paramId},
-            {$set: {firstName: req.body.firstName,
-                    lastName: req.body.lastName,
-                    email: req.body.email,
-                    role: req.body.role}}
-        );
-        res.json(updateUser);
-    }catch(err) {
-        res.json({message: err});
-    }
-})
+router.patch('/',
+    validationMiddleware.signup,
+    baseController.patchup);
 
 
 module.exports = router;
